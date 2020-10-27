@@ -11,13 +11,15 @@ class Node{
 */
 class Tree
 {
+	public static Node successor;
+	
 	public Node findMin(Node node){
 		if(node.left == null)
 			return node;
 		return findMin(node.left);
 	}
 
-	public Node inorderSuccessor(Node root,Node x)
+	/*public Node inorderSuccessor(Node root,Node x)
 	{
 		if(x.right != null){
 			return findMin(x.right);
@@ -32,6 +34,30 @@ class Tree
 			else 
 				root = root.right;
 		}
+		return successor;
+	}
+	 Above is iterative version and below is recursive version
+	*/
+	
+	public static void inorderSuccessorUtility(Node root, Node x){
+		if(root == null)
+			return;
+		if(x.data < root.data){
+			successor = root;
+			inorderSuccessorUtility(root.left, x);	
+		}
+		else if(x.data > root.data)
+			inorderSuccessorUtility(root.right, x);
+		else 
+			return;
+	}
+	
+	public Node inorderSuccessor(Node root,Node x)
+	{
+		if(x.right != null)
+			return findMin(x.right);
+		successor = null;
+		inorderSuccessorUtility(root, x);
 		return successor;
 	}
 }
